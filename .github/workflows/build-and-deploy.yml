@@ -62,9 +62,7 @@ jobs:
           $env:SQL_ADMIN_USER = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].administratorLogin;
           $env:SQL_ADMIN_CONNECTIONSTRING = "Server=$env:SQL_HOST;Port=$env:SQL_PORT;Database=$env:SQL_NAME;Uid=$env:SQL_ADMIN_USER;Pwd=$env:SQL_ADMIN_PASSWORD;SslMode=Preferred";
 
-          echo $env:SQL_ADMIN_CONNECTIONSTRING;
-
-          mysql -h 10.224.0.12 -P 3306 -u adminuser -p;
+          mysql -h 10.224.0.12 -P 3306 -u adminuser -p $env:SQL_ADMIN_PASSWORD;
 
           #mysql -e "CREATE DATABASE IF NOT EXISTS grafana" $env:SQL_ADMIN_CONNECTIONSTRING;
 
