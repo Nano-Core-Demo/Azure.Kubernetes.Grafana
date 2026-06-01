@@ -57,15 +57,9 @@ jobs:
         if: env.SQL_TYPE == 'mysql'
         shell: pwsh
         run: |
-          $env:SQL_HOST = "10.224.0.12"; #az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].fullyQualifiedDomainName -o tsv;
+          $env:SQL_HOST = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].fullyQualifiedDomainName -o tsv;
           $env:SQL_PORT = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].databasePort -o tsv;
           $env:SQL_ADMIN_USER = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].administratorLogin -o tsv;
-          #$env:SQL_ADMIN_CONNECTIONSTRING = "Server=$env:SQL_HOST;Port=$env:SQL_PORT;Database=$env:SQL_NAME;Uid=$env:SQL_ADMIN_USER;Pwd=$env:SQL_ADMIN_PASSWORD;SslMode=Preferred";
-
-          Write-Host "PORT=[$env:SQL_PORT]"
-          Write-Host "USER=[$env:SQL_ADMIN_USER]"
-          Write-Host "HOST=[$env:SQL_HOST]"
-
           $env:MYSQL_PWD = $env:SQL_ADMIN_PASSWORD
 
           mysql `
@@ -73,9 +67,7 @@ jobs:
             --port=$env:SQL_PORT `
             --user=$env:SQL_ADMIN_USER `
             --ssl-mode=REQUIRED `
-            -e "CREATE DATABASE IF NOT EXISTS grafana;"
-
-          #mysql -e "CREATE DATABASE IF NOT EXISTS grafana" $env:SQL_ADMIN_CONNECTIONSTRING;
+            -e "CREATE DATABASE IF NOT EXISTS $env:SQL_NAME;";
 
           #$userExists = mysql --batch -e "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '$env:SQL_USER');" $env:MYSQL_ADMIN_CONNECTIONSTRING;
           #if ($userExists -eq 0) 
