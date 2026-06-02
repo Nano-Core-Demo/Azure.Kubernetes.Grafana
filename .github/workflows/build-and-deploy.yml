@@ -92,7 +92,9 @@ jobs:
           echo "SQL_HOST=$env:SQL_HOST" >> $env:GITHUB_ENV;
           echo "SQL_PORT=$env:SQL_PORT" >> $env:GITHUB_ENV;
           echo "SQL_ADMIN_USER=$env:SQL_ADMIN_USER" >> $env:GITHUB_ENV;
-          echo "SQL_CA_CERT=$env:SQL_CA_CERT" >> $env:GITHUB_ENV;
+          #echo "SQL_CA_CERT=$env:SQL_CA_CERT" >> $env:GITHUB_ENV;
+
+          throw;
 
       - name: Initialize PostgreSQL Database
         if: env.SQL_TYPE == 'postgresql'
