@@ -114,6 +114,9 @@ jobs:
           }
 
           Get-Content .kubernetes/grafana-db-ca-cert-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-db-ca-cert-secret.tmp.yaml;
+
+          echo Get-Content .kubernetes/grafana-db-ca-cert-secret.yaml;
+
           kubectl apply -f .kubernetes/grafana-db-ca-cert-secret.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
