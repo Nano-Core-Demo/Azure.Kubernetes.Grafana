@@ -29,6 +29,7 @@ env:
   SQL_NAME: grafana
   SQL_USER: grafana-user
   SQL_ADMIN_PASSWORD: ${{ github.ref == 'refs/heads/master' && secrets.PRODUCTION_SQL_ADMIN_PASSWORD || secrets.STAGING_SQL_ADMIN_PASSWORD }}
+  SUB_DOMAIN_NAME: grafana
 jobs:
   build-and-deploy:
     runs-on:
@@ -106,14 +107,25 @@ jobs:
       - name: Deploy Grafana
         shell: pwsh
         run: |
+          $zoneNames = az network dns zone list -g $env:AZURE_GROUP_DNS --query [].name;
+
+          $env:ROUTE_HOST_NAMES = @(
+              foreach ($zoneName in $zoneNames) {
+          @"
+              - $env:SUB_DOMAIN_NAME.$($zoneName)
+          "@
+              }
+          ) -join "`n";
+
+          $env:GATEWAY_NAME = kubectl get gateway -n apps -o jsonpath='{.items[0].metadata.name}'
+          $env:SQL_CA_CERT_BASE64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($env:SQL_CA_CERT))
+
           Get-Content .kubernetes/grafana-db-auth-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-db-auth-secret.tmp.yaml;
           kubectl apply -f .kubernetes/grafana-db-auth-secret.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
           }
-
-          $env:SQL_CA_CERT_BASE64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($env:SQL_CA_CERT))
 
           Get-Content .kubernetes/grafana-db-ca-cert-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-db-ca-cert-secret.tmp.yaml;
           kubectl apply -f .kubernetes/grafana-db-ca-cert-secret.tmp.yaml;
