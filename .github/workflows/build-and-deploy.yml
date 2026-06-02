@@ -84,7 +84,7 @@ jobs:
                  --port $env:SQL_PORT `
                  --user $env:SQL_ADMIN_USER `
                  --ssl-mode=REQUIRED `
-                 -e "CREATE USER '$env:SQL_USER'@'%' IDENTIFIED BY '$env:SQL_PASSWORD'; GRANT SELECT, INSERT, UPDATE, DELETE ON $database.* TO '$env:SQL_USER'@'%'; FLUSH PRIVILEGES;";
+                 -e "CREATE USER '$env:SQL_USER'@'%' IDENTIFIED BY '$env:SQL_PASSWORD'; GRANT SELECT, INSERT, UPDATE, DELETE ON $env:SQL_NAME.* TO '$env:SQL_USER'@'%'; FLUSH PRIVILEGES;";
           }
 
           $env:SQL_CA_CERT = Get-Content .sql/MySql/.certificates/DigiCertGlobalRootCA.pem -Raw;
