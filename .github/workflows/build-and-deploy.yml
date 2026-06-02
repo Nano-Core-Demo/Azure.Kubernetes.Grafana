@@ -58,12 +58,13 @@ jobs:
         shell: pwsh
         run: |
           $sqlhost = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].fullyQualifiedDomainName -o tsv
-          $sqlport = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].databasePort -o tsv
-          $sqluser = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].administratorLogin -o tsv
+          echo "SQL_HOST=$sqlhost" >> $env:GITHUB_ENV;
 
-          "SQL_HOST=$sqlhost" >> $env:GITHUB_ENV
-          "SQL_PORT=$sqlport" >> $env:GITHUB_ENV
-          "SQL_ADMIN_USER=$sqluser" >> $env:GITHUB_ENV
+          $sqlport = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].databasePort -o tsv
+          echo "SQL_PORT=$sqlport" >> $env:GITHUB_ENV;
+
+          $sqluser = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].administratorLogin -o tsv
+          echo "SQL_USER=$sqluser" >> $env:GITHUB_ENV;
 
           $env:MYSQL_PWD = $env:SQL_ADMIN_PASSWORD
 
@@ -76,7 +77,7 @@ jobs:
           }
 
           $sqlcert = Get-Content .sql/MySql/.certificates/DigiCertGlobalRootCA.pem -Raw
-          "SQL_CA_CERT<<EOF`n$sqlcert`nEOF" >> $env:GITHUB_ENV
+          echo "SQL_CA_CERT<<EOF`n$sqlcert`nEOF" >> $env:GITHUB_ENV
 
       - name: Initialize PostgreSQL Database
         if: env.SQL_TYPE == 'postgresql'
