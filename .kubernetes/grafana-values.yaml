@@ -109,6 +109,7 @@ extraVolumeMounts:
   - name: db-auth
     mountPath: /etc/db/auth
     readOnly: true
+    subPath: ""
   - name: db-ca-cert
     mountPath: /etc/db/certs
     readOnly: true
@@ -135,7 +136,7 @@ grafana.ini:
     type: %SQL_TYPE%
     host: %SQL_HOST%
     port: %SQL_PORT%
-    name: grafana
+    name: %SQL_NAME%
     user: $__file{/etc/db/auth/username}
     password: $__file{/etc/db/auth/password}
     ssl_mode: verify-full
