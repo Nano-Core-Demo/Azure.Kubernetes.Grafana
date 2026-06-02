@@ -68,9 +68,14 @@ jobs:
           echo "SQL_PORT=$($sqlport)" >> $env:GITHUB_ENV;
 
           $sqluser = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].administratorLogin -o tsv;
-          echo "SQL_USER=$($sqluser)" >> $env:GITHUB_ENV;
+          echo "SQL_ADMIN_USER=$($sqluser)" >> $env:GITHUB_ENV;
 
           $env:MYSQL_PWD = $env:SQL_ADMIN_PASSWORD
+
+
+          echo $env:SQL_HOST;
+          echo $env:SQL_PORT;
+          echo $env:SQL_ADMIN_USER;
 
           mysql -h $env:SQL_HOST -p $env:SQL_PORT -u $env:SQL_ADMIN_USER --ssl-mode=REQUIRED -e "CREATE DATABASE IF NOT EXISTS $env:SQL_NAME;";
 
