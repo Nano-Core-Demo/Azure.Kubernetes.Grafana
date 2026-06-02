@@ -113,10 +113,9 @@ jobs:
               throw "error";
           }
 
+          $env:SQL_CA_CERT_BASE64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($env:SQL_CA_CERT))
+
           Get-Content .kubernetes/grafana-db-ca-cert-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-db-ca-cert-secret.tmp.yaml;
-
-          Get-Content .kubernetes/grafana-db-ca-cert-secret.tmp.yaml -Raw;
-
           kubectl apply -f .kubernetes/grafana-db-ca-cert-secret.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
