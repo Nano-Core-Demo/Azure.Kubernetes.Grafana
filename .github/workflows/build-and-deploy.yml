@@ -106,6 +106,8 @@ jobs:
       - name: Deploy Grafana
         shell: pwsh
         run: |
+          echo $env:SQL_CA_CERT;
+
           Get-Content .kubernetes/grafana-db-auth-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-db-auth-secret.tmp.yaml;
           kubectl apply -f .kubernetes/grafana-db-auth-secret.tmp.yaml;
           if ($LastExitCode -ne 0) 
