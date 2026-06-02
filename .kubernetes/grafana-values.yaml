@@ -103,12 +103,10 @@ extraSecretMounts:
     secretName: grafana-db-auth
     mountPath: /etc/db/auth
     readOnly: true
-
   - name: db-ca-cert
     secretName: grafana-db-ca-cert
     mountPath: /etc/db/certs
     readOnly: true
-
   - name: smtp-auth
     secretName: sendgrid-auth
     mountPath: /etc/smtp/auth
@@ -136,7 +134,7 @@ grafana.ini:
     name: %SQL_NAME%
     user: $__file{/etc/db/auth/username}
     password: $__file{/etc/db/auth/password}
-    ssl_mode: verify-full
+    ssl_mode: verify-ca
     ca_cert_path: /etc/db/certs/ca.pem
   analytics:
     reporting_enabled: false
