@@ -109,13 +109,43 @@ extraVolumeMounts:
   - name: db-auth
     mountPath: /etc/db/auth
     readOnly: true
-    subPath: ""
   - name: db-ca-cert
     mountPath: /etc/db/certs
     readOnly: true
   - name: smtp-auth
     mountPath: /etc/smtp/auth
     readOnly: true
+
+grafana:
+  extraVolumes:
+    - name: tmp
+      emptyDir: {}
+    - name: var-tmp
+      emptyDir: {}
+    - name: db-auth
+      secret:
+        secretName: %APP_NAME%-db-auth
+    - name: db-ca-cert
+      secret:
+        secretName: %APP_NAME%-db-ca-cert
+    - name: smtp-auth
+      secret:
+        secretName: sendgrid-auth
+
+  extraVolumeMounts:
+    - name: tmp
+      mountPath: /tmp
+    - name: var-tmp
+      mountPath: /var/tmp
+    - name: db-auth
+      mountPath: /etc/db/auth
+      readOnly: true
+    - name: db-ca-cert
+      mountPath: /etc/db/certs
+      readOnly: true
+    - name: smtp-auth
+      mountPath: /etc/smtp/auth
+      readOnly: true
 
 grafana.ini:
   server:
