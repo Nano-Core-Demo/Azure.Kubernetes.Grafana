@@ -57,13 +57,11 @@ jobs:
         if: env.SQL_TYPE == 'mysql'
         shell: pwsh
         run: |
-          $env:SQL_HOST = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].fullyQualifiedDomainName -o tsv;
+          $env:SQL_HOST = "10.232.0.252"; #az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].fullyQualifiedDomainName -o tsv;
           $env:SQL_PORT = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].databasePort -o tsv;
           $env:SQL_ADMIN_USER = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].administratorLogin -o tsv;
 
           $env:MYSQL_PWD = $env:SQL_ADMIN_PASSWORD
-
-          echo $env:SQL_HOST;
 
           mysql `
               -h $env:SQL_HOST `
