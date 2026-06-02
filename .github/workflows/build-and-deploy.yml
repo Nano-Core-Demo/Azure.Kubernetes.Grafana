@@ -64,7 +64,7 @@ jobs:
           $env:MYSQL_PWD = $env:SQL_ADMIN_PASSWORD;
 
           mysql `
-              --hosth $env:SQL_HOST `
+              --host $env:SQL_HOST `
               --port $env:SQL_PORT `
               --user $env:SQL_ADMIN_USER `
               --ssl-mode=REQUIRED `
