@@ -57,14 +57,14 @@ jobs:
         if: env.SQL_TYPE == 'mysql'
         shell: pwsh
         run: |
-          $sqlhost = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].fullyQualifiedDomainName -o tsv
-          echo "SQL_HOST=$sqlhost" >> $env:GITHUB_ENV;
+          $sqlhost = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].fullyQualifiedDomainName -o tsv;
+          echo "SQL_HOST=$($sqlhost)" >> $env:GITHUB_ENV;
 
-          $sqlport = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].databasePort -o tsv
-          echo "SQL_PORT=$sqlport" >> $env:GITHUB_ENV;
+          $sqlport = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].databasePort -o tsv;
+          echo "SQL_PORT=$($sqlport)" >> $env:GITHUB_ENV;
 
-          $sqluser = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].administratorLogin -o tsv
-          echo "SQL_USER=$sqluser" >> $env:GITHUB_ENV;
+          $sqluser = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].administratorLogin -o tsv;
+          echo "SQL_USER=$($sqluser)" >> $env:GITHUB_ENV;
 
           $env:MYSQL_PWD = $env:SQL_ADMIN_PASSWORD
 
