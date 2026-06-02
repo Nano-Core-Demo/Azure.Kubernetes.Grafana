@@ -60,6 +60,7 @@ jobs:
           $env:SQL_HOST = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].fullyQualifiedDomainName -o tsv;
           $env:SQL_PORT = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].databasePort -o tsv;
           $env:SQL_ADMIN_USER = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].administratorLogin -o tsv;
+          $env:SQL_CA_CERT = Get-Content .sql/MySql/DigiCertGlobalRootCA.pem -Raw;
 
           $env:MYSQL_PWD = $env:SQL_ADMIN_PASSWORD;
 
@@ -87,16 +88,10 @@ jobs:
                  -e "CREATE USER '$env:SQL_USER'@'%' IDENTIFIED BY '$env:SQL_PASSWORD'; GRANT SELECT, INSERT, UPDATE, DELETE ON $env:SQL_NAME.* TO '$env:SQL_USER'@'%'; FLUSH PRIVILEGES;";
           }
 
-          $env:SQL_CA_CERT = Get-Content .sql/MySql/DigiCertGlobalRootCA.pem -Raw;
-
           echo "SQL_HOST=$env:SQL_HOST" >> $env:GITHUB_ENV;
           echo "SQL_PORT=$env:SQL_PORT" >> $env:GITHUB_ENV;
           echo "SQL_ADMIN_USER=$env:SQL_ADMIN_USER" >> $env:GITHUB_ENV;
-
           echo "SQL_CA_CERT<<EOF`n$env:SQL_CA_CERT`nEOF" >> $env:GITHUB_ENV
-          #echo "SQL_CA_CERT=$env:SQL_CA_CERT" >> $env:GITHUB_ENV;
-
-          throw;
 
       - name: Initialize PostgreSQL Database
         if: env.SQL_TYPE == 'postgresql'
