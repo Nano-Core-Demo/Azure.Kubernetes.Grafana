@@ -108,7 +108,7 @@ jobs:
       - name: Deploy Grafana
         shell: pwsh
         run: |
-          $zoneNames = az network dns zone list -g $env:AZURE_GROUP_DNS --query [].name;
+          $zoneNames = az network dns zone list -g $env:AZURE_GROUP_DNS --query [].name -0 tsv;
 
           $env:ROUTE_HOST_NAMES = @(
               foreach ($zoneName in $zoneNames) {
