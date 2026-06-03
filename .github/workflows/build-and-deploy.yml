@@ -110,9 +110,9 @@ jobs:
         run: |
           $zoneNames = az network dns zone list -g $env:AZURE_GROUP_DNS --query "[].name" -o json | ConvertFrom-Json
 
-          $env:CERTIFICATE_DNS_NAMES = (
+          $env:ROUTE_HOST_NAMES = (
               $zoneNames | ForEach-Object {
-                  "  - `$env:SUB_DOMAIN_NAME.$_`"
+                  "  - $env:SUB_DOMAIN_NAME.$_"
               }
           ) -join "`n"
 
