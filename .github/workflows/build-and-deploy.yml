@@ -147,8 +147,15 @@ jobs:
               throw "error";
           }
 
-          Get-Content .kubernetes/grafana-httproute.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-httproute.tmp.yaml;
-          kubectl apply -f .kubernetes/grafana-httproute.tmp.yaml;
+          Get-Content .kubernetes/grafana-httproute-80.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-httproute-80.tmp.yaml;
+          kubectl apply -f .kubernetes/grafana-httproute-80.tmp.yaml;
+          if ($LastExitCode -ne 0) 
+          { 
+              throw "error";
+          }
+
+          Get-Content .kubernetes/grafana-httproute-443.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-httproute-443.tmp.yaml;
+          kubectl apply -f .kubernetes/grafana-httproute-443.tmp.yaml;
           if ($LastExitCode -ne 0) 
           { 
               throw "error";
