@@ -134,7 +134,7 @@ grafana.ini:
     name: %SQL_NAME%
     user: $__file{/etc/db/auth/username}
     password: $__file{/etc/db/auth/password}
-    ssl_mode: disabled
+    ssl_mode: skip-verify
     ca_cert_path: /etc/db/certs/ca.pem
   analytics:
     reporting_enabled: false
