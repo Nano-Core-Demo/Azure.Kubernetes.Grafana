@@ -7,7 +7,7 @@ podDisruptionBudget:
 readinessProbe:
   httpGet:
     path: /api/health
-    port: 3000
+    port: grafana
   initialDelaySeconds: 30
   periodSeconds: 10
   timeoutSeconds: 5
@@ -17,7 +17,7 @@ readinessProbe:
 livenessProbe:
   httpGet:
     path: /api/health
-    port: 3000
+    port: grafana
   initialDelaySeconds: 90
   periodSeconds: 20
   timeoutSeconds: 5
