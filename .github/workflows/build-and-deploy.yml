@@ -118,6 +118,9 @@ jobs:
               }
           ) -join "`n";
 
+          echo "AAA";
+          echo $env:ROUTE_HOST_NAMES;
+
           $env:GATEWAY_NAME = kubectl get gateway -n apps -o jsonpath='{.items[0].metadata.name}'
           $env:SQL_CA_CERT_BASE64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($env:SQL_CA_CERT))
 
