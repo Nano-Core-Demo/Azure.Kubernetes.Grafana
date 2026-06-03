@@ -108,18 +108,13 @@ jobs:
       - name: Deploy Grafana
         shell: pwsh
         run: |
-          $zoneNames = az network dns zone list -g $env:AZURE_GROUP_DNS --query [].name -o tsv;
+          $zoneNames = az network dns zone list -g $env:AZURE_GROUP_DNS --query "[].name" -o json | ConvertFrom-Json
 
-          $env:ROUTE_HOST_NAMES = @(
-              foreach ($zoneName in $zoneNames) {
-          @"
-              - $env:SUB_DOMAIN_NAME.$($zoneName)
-          "@
+          $env:CERTIFICATE_DNS_NAMES = (
+              $zoneNames | ForEach-Object {
+                  "  - `$env:SUB_DOMAIN_NAME.$_`"
               }
-          ) -join "`n";
-
-          echo "AAA";
-          echo $env:ROUTE_HOST_NAMES;
+          ) -join "`n"
 
           $env:GATEWAY_NAME = kubectl get gateway -n apps -o jsonpath='{.items[0].metadata.name}'
           $env:SQL_CA_CERT_BASE64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($env:SQL_CA_CERT))
