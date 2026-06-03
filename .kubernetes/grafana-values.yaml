@@ -114,7 +114,7 @@ extraSecretMounts:
 
 grafana.ini:
   server:
-    root_url: https://grafana.nanocore.vivetonline.com
+    domain: https://grafana.nanocore.vivetonline.com
     protocol: http
     enable_gzip: true
     serve_from_sub_path: false
