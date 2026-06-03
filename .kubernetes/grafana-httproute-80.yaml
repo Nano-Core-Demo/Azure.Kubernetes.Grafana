@@ -1,14 +1,14 @@
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: http-redirect
-  namespace: apps
+  name: %APP_NAME%-route-80
+  namespace: %KUBERNETES_NAMESPACE%
 spec:
   parentRefs:
-    - name: public-gateway
+    - name: %GATEWAY_NAME%
       sectionName: http
   hostnames:
-    - grafana.nanocore.vivetonline.com
+%ROUTE_HOST_NAMES%
   rules:
     - filters:
         - type: RequestRedirect
