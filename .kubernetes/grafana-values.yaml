@@ -5,10 +5,7 @@ podDisruptionBudget:
   minAvailable: 1
 
 deploymentStrategy:
-  type: RollingUpdate
-  rollingUpdate:
-    maxUnavailable: 1
-    maxSurge: 1
+  type: Recreate
 
 readinessProbe:
   httpGet:
