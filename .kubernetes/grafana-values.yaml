@@ -78,8 +78,8 @@ persistence:
   enabled: true
   type: pvc
   accessModes:
-    - ReadWriteMany
-  size: 5Gi
+    - ReadWrite
+  size: 10Gi
 
 admin:
   existingSecret: %APP_NAME%-admin-auth
