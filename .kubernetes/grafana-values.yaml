@@ -24,6 +24,10 @@ livenessProbe:
   successThreshold: 1
   failureThreshold: 3
 
+service:
+  port: 3000
+  targetPort: 3000  
+
 testFramework:
   enabled: false
 
@@ -114,8 +118,7 @@ extraSecretMounts:
 
 grafana.ini:
   server:
-    domain: grafana.nanocore.vivetonline.com
-    root_url: https://grafana.nanocore.vivetonline.com/
+    root_url: "%(protocol)s://%(domain)s/"
     protocol: http
     enable_gzip: true
     serve_from_sub_path: false
