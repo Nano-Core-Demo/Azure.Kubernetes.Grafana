@@ -24,10 +24,6 @@ livenessProbe:
   successThreshold: 1
   failureThreshold: 3
 
-service:
-  port: 3000
-  targetPort: 3000  
-
 testFramework:
   enabled: false
 
