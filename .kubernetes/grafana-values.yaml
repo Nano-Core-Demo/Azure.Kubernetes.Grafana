@@ -4,9 +4,6 @@ podDisruptionBudget:
   enabled: true
   minAvailable: 1
 
-#deploymentStrategy:
-#  type: Recreate
-
 readinessProbe:
   httpGet:
     path: /api/health
@@ -76,13 +73,6 @@ topologySpreadConstraints:
     labelSelector:
       matchLabels:
         app.kubernetes.io/name: %APP_NAME%
-
-# persistence:
-#   enabled: true
-#   type: pvc
-#   accessModes:
-#     - ReadWriteOnce
-#   size: 10Gi
 
 admin:
   existingSecret: %APP_NAME%-admin-auth
