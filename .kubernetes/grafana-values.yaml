@@ -78,7 +78,7 @@ persistence:
   enabled: true
   type: pvc
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   size: 5Gi
 
 admin:
