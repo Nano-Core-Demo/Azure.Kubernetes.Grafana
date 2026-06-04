@@ -158,11 +158,11 @@ grafana.ini:
 
 sidecar:
   dashboards:
-    enabled: true
+    enabled: false
     searchNamespace: ALL
 
   datasources:
-    enabled: true
+    enabled: false
     searchNamespace: ALL
 
 revisionHistoryLimit: 0
