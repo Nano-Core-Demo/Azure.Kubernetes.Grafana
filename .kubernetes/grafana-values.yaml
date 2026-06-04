@@ -4,6 +4,9 @@ podDisruptionBudget:
   enabled: true
   minAvailable: 1
 
+deploymentStrategy:
+  type: Recreate
+
 readinessProbe:
   httpGet:
     path: /api/health
@@ -40,7 +43,7 @@ containerSecurityContext:
   capabilities:
     drop:
       - ALL
-
+      
 ingress:
   enabled: false
 
