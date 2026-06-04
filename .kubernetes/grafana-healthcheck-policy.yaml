@@ -15,4 +15,3 @@ spec:
     healthyThreshold: 2
     http:
       path: /api/health
-      port: 3000
