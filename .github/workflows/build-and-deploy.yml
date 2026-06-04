@@ -168,6 +168,13 @@ jobs:
               throw "error";
           }
 
+          Get-Content .kubernetes/grafana-healthcheck-policy.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-healthcheck-policy.tmp.yaml;
+          kubectl apply -f .kubernetes/grafana-healthcheck-policy.tmp.yaml;
+          if ($LastExitCode -ne 0) 
+          { 
+              throw "error";
+          }
+
       - name: GitHub Release
         if: github.ref == 'refs/heads/master'
         uses: ncipollo/release-action@v1
