@@ -64,9 +64,6 @@ jobs:
           $env:SQL_ADMIN_USER = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].administratorLogin -o tsv;
           $env:SQL_CA_CERT = Get-Content .sql/MySql/DigiCertGlobalRootG2.crt.pem -Raw; 
 
-          echo "AAA";
-          echo $env:SQL_CA_CERT
-
           $env:MYSQL_PWD = $env:SQL_ADMIN_PASSWORD;
 
           mysql `
@@ -121,6 +118,9 @@ jobs:
 
           $env:GATEWAY_NAME = kubectl get gateway -n apps -o jsonpath='{.items[0].metadata.name}'
           $env:SQL_CA_CERT_BASE64 = [Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($env:SQL_CA_CERT))
+
+          echo $env:SQL_CA_CERT;
+          echo $env:SQL_CA_CERT_BASE64;
 
           Get-Content .kubernetes/grafana-db-auth-secret.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-db-auth-secret.tmp.yaml;
           kubectl apply -f .kubernetes/grafana-db-auth-secret.tmp.yaml;
