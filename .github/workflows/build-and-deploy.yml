@@ -147,6 +147,8 @@ jobs:
               throw "error";
           }
 
+          kubectl rollout restart deployment $env:APP_NAME -n $env:KUBERNETES_NAMESPACE;
+
           Get-Content .kubernetes/grafana-httproute-80.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-httproute-80.tmp.yaml;
           kubectl apply -f .kubernetes/grafana-httproute-80.tmp.yaml;
           if ($LastExitCode -ne 0) 
