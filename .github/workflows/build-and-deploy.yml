@@ -62,7 +62,10 @@ jobs:
           $env:SQL_HOST = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].fullyQualifiedDomainName -o tsv;
           $env:SQL_PORT = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].databasePort -o tsv;
           $env:SQL_ADMIN_USER = az mysql flexible-server list -g $env:AZURE_GROUP_DATABASE --query [0].administratorLogin -o tsv;
-          $env:SQL_CA_CERT = Get-Content .sql/MySql/DigiCertGlobalRootCA.pem -Raw; (Get-Content .kubernetes/grafana-db-ca-cert-secret.yaml -Raw) -replace "%SQL_CA_CERT%", ($env:SQL_CA_CERT -replace "`n", "`n    ") | Set-Content .kubernetes/grafana-db-ca-cert-secret.tmp.yaml
+          $env:SQL_CA_CERT = Get-Content .sql/MySql/DigiCertGlobalRootG2.crt.pem -Raw; (Get-Content .kubernetes/grafana-db-ca-cert-secret.yaml -Raw) -replace "%SQL_CA_CERT%", ($env:SQL_CA_CERT -replace "`n", "`n    ");
+
+          echo "AAA";
+          echo $env:SQL_CA_CERT
 
           $env:MYSQL_PWD = $env:SQL_ADMIN_PASSWORD;
 
@@ -146,8 +149,6 @@ jobs:
           { 
               throw "error";
           }
-
-          #kubectl rollout restart deployment $env:APP_NAME -n $env:KUBERNETES_NAMESPACE;
 
           Get-Content .kubernetes/grafana-httproute-80.yaml | foreach { [Environment]::ExpandEnvironmentVariables($_) } | Set-Content .kubernetes/grafana-httproute-80.tmp.yaml;
           kubectl apply -f .kubernetes/grafana-httproute-80.tmp.yaml;
