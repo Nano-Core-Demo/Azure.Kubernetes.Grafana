@@ -74,6 +74,9 @@ topologySpreadConstraints:
       matchLabels:
         app.kubernetes.io/name: %APP_NAME%
 
+persistence:
+  enabled: false
+
 admin:
   existingSecret: %APP_NAME%-admin-auth
   userKey: admin-username
