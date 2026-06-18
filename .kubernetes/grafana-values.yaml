@@ -157,9 +157,23 @@ sidecar:
   dashboards:
     enabled: true
     searchNamespace: %KUBERNETES_NAMESPACE%
+    resources:
+      requests:
+        cpu: 25
+        memory: 32Mi 
+      limits:
+        cpu: 75
+        memory: 96Mi
 
   datasources:
     enabled: true
     searchNamespace: %KUBERNETES_NAMESPACE%
+    resources:
+      requests:
+        cpu: 25
+        memory: 32Mi 
+      limits:
+        cpu: 75
+        memory: 96Mi
 
 revisionHistoryLimit: 0
