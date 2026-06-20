@@ -2,8 +2,6 @@ serviceAccount:
   create: true
   automountServiceAccountToken: false
 
-automountServiceAccountToken: false
-
 replicas: %KUBERNETES_REPLICA_COUNT%
 
 podDisruptionBudget:
