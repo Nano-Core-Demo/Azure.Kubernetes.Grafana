@@ -93,6 +93,8 @@ extraVolumes:
     emptyDir: {}
   - name: var-tmp
     emptyDir: {}
+
+extraContainerVolumes:
   - name: kube-api-token
     projected:
       defaultMode: 0444
