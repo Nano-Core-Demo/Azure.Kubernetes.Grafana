@@ -93,7 +93,7 @@ extraVolumes:
     emptyDir: {}
   - name: var-tmp
     emptyDir: {}
-  - name: serviceaccount-token
+  - name: kube-api-token
     projected:
       defaultMode: 0444
       sources:
@@ -118,7 +118,7 @@ extraVolumeMounts:
   - name: var-tmp
     mountPath: /var/tmp
   - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-    name: serviceaccount-token
+    name: kube-api-token
     readOnly: true
 
 extraSecretMounts:
@@ -183,11 +183,11 @@ grafana.ini:
 sidecar:
   resources:
     requests:
-      cpu: 50m
-      memory: 256Mi 
+      cpu: 25m
+      memory: 96Mi 
     limits:
-      cpu: 150m
-      memory: 768Mi
+      cpu: 75m
+      memory: 288Mi
   securityContext:
     allowPrivilegeEscalation: false
     privileged: false
@@ -201,14 +201,14 @@ sidecar:
     searchNamespace: %KUBERNETES_NAMESPACE%
     extraMounts:
       - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: serviceaccount-token
+        name: kube-api-token
         readOnly: true
   datasources:
     enabled: true
     searchNamespace: %KUBERNETES_NAMESPACE%
     extraMounts:
       - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: serviceaccount-token
+        name: kube-api-token
         readOnly: true
 
 revisionHistoryLimit: 0
