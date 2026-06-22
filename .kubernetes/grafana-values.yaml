@@ -95,7 +95,7 @@ extraVolumes:
     emptyDir: {}
 
 extraContainerVolumes:
-  - name: kube-api-token
+  - name: serviceaccount-token
     projected:
       defaultMode: 0444
       sources:
@@ -120,7 +120,7 @@ extraVolumeMounts:
   - name: var-tmp
     mountPath: /var/tmp
   - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-    name: kube-api-token
+    name: serviceaccount-token
     readOnly: true
 
 extraSecretMounts:
@@ -203,14 +203,14 @@ sidecar:
     searchNamespace: %KUBERNETES_NAMESPACE%
     extraMounts:
       - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-token
+        name: serviceaccount-token
         readOnly: true
   datasources:
     enabled: true
     searchNamespace: %KUBERNETES_NAMESPACE%
     extraMounts:
       - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-        name: kube-api-token
+        name: serviceaccount-token
         readOnly: true
 
 revisionHistoryLimit: 0
