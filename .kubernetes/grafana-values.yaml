@@ -119,9 +119,6 @@ extraVolumeMounts:
     mountPath: /tmp
   - name: var-tmp
     mountPath: /var/tmp
-  - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-    name: serviceaccount-token
-    readOnly: true
 
 extraSecretMounts:
   - name: db-auth
